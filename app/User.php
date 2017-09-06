@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-use App\Role;
 
 
 class User extends Model implements Authenticatable
@@ -14,8 +13,17 @@ class User extends Model implements Authenticatable
     
     public function roles(){
         
-       return $this->belongsToMany('App\Role','user_role','user_id','role_id'); 
+       return $this->belongsToMany('App\Role','user_role','user_id','role_id');
         
+    }
+    public function address(){
+        return $this->hasMany('App\Address');
+
+    }
+    public function orders(){
+
+        return $this->hasMany('App\Order');
+
     }
     public function hasAnyRole($roles){
         
