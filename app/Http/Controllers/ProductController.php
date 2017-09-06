@@ -5,7 +5,8 @@ use Illuminate\Http\Response;
 use App\Product;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-
+use App\Order;
+use Illuminate\Support\Facades\Auth;
 class ProductController extends Controller{
     
  public function addProduct(Request $request){
@@ -104,4 +105,43 @@ class ProductController extends Controller{
      return response($file,200);
  }
     
+
+public function getProductDetail($name,$id){
+$product=Product::where('id',$id)->first();
+    return view('product',['product'=>$product]);
+}
+
+public function addToCart(Request $request){
+$id=$request['id'];
+$quantity=$request['quantity'];
+$user_id=Auth::id();
+$quantity=$request['quantity'];
+$result=Order::find($user_id);
+//check whether order exist
+    if(!$result){
+
+        $order=new Order();
+        $order->user_id=$user_id;
+        $order->save();
+    }
+    else{
+
+        $order=Order::where('user_id',$user_id)->first();
+    }
+$product_exit= \DB::table('order_user')->where('product_id',$id)->first();
+if(!$product_exit){
+
+    \DB::table('order_user')->insert(['product_id'=>$id, 'user_id'=>$user_id, 'order_id'=>$order->id
+    , 'quantity'=>$quantity]);
+
+}
+else{
+    $old_quantity=\DB::table('order_user')->where([['product_id',$id],['order_id',$order->id]])->first()->quantity;
+
+    \DB::table('order_user')->update(['quantity'=>$quantity+$old_quantity]);
+}
+
+    return response(var_dump($product_exit));
+}
+
 }

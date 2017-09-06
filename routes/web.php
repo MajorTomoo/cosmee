@@ -96,4 +96,16 @@ Route::get('/productimg/{filedate}/{filename}',[
      'middleware'=>'role',
      'role'=>['Admin']
  ]);
-        
+//product-detail route
+Route::get('/product/{name}/{id}',[
+
+'uses'=>'ProductController@getProductDetail',
+    'as'=>'productdetail'
+]
+    );
+//add-to-cart route
+Route::post('/addtocart',[
+
+    'uses'=>'ProductController@addToCart',
+    'as'=>'addtocart'
+]);
