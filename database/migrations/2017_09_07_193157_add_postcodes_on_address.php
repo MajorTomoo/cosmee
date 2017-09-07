@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddQuantityToOrderUser extends Migration
+class AddPostcodesOnAddress extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddQuantityToOrderUser extends Migration
      */
     public function up()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->string('quantity');
+        Schema::table('addresses', function (Blueprint $table) {
+         $table->string('postcodes');
         });
     }
 
@@ -25,8 +25,8 @@ class AddQuantityToOrderUser extends Migration
      */
     public function down()
     {
-        Schema::table('orders', function (Blueprint $table) {
-            //
+        Schema::table('addresses', function (Blueprint $table) {
+
         });
     }
 }

@@ -25,6 +25,8 @@ class AddQuantityOnOrderUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('order_user', function (Blueprint $table) {
+            //
+        });
     }
 }

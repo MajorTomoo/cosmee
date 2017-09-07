@@ -25,6 +25,8 @@ class EditAddressToOrderTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function (Blueprint $table) {
+            //
+        });
     }
 }

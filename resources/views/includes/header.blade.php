@@ -18,8 +18,12 @@
         <a class="nav-link">Welcome! <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link">{{@Auth::getuser()['email']}}</a>
-      </li>
+            <a class="nav-link">{{@Auth::getuser()['email']}}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/mybag">Bag
+            </a>
+        </li>
       <li class="nav-item">
         <a class="nav-link" href="/logout">Log out</a>
       </li>

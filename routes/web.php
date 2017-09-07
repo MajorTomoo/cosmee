@@ -12,15 +12,18 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 Route::get('/register', function () {
         return view('register');
 });
 Route::get('/signin', function () {
         return view('signin');
 });
+Route::get('/mybag',[
+    'uses'=>'BagController@getBagPage',
+    'as'=>'mybag'
+
+]);
 Route::get('/dashboard',[
  'uses'=>'UserController@getDashboard',
  'as'=>'dashboard' 
@@ -70,7 +73,7 @@ Route::get('/productimg/{filedate}/{filename}',[
     'uses'=>'ProductController@getProductImage',
     'as'=>'account.img'
 ]
-    ); 
+    );
  Route::post('/signup',[
  
  'uses'=>'UserController@postSignup',
@@ -106,6 +109,21 @@ Route::get('/product/{name}/{id}',[
 //add-to-cart route
 Route::post('/addtocart',[
 
-    'uses'=>'ProductController@addToCart',
+    'uses'=>'BagController@addToCart',
     'as'=>'addtocart'
+]);
+//remove product
+Route::get('/remove-product/{product_id}/{order_id}',[
+    'uses'=>'BagController@remove',
+    'as'=>'remove-product'
+]);
+Route::get('/checkout',[
+   'uses'=>'BagController@getCheckOut',
+   'as'=>'checkout'
+
+]);
+//ADD-ADDRESS
+Route::post('/add-address',[
+    'uses'=>'AddressController@postAddAddress',
+    'as'=>'add-address'
 ]);

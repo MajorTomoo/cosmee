@@ -8,6 +8,8 @@ h5{padding-top:1rem;}
 div h7{color:gray;font-size:14px;}
 .price{font-size:22px;font-weight:700;}
     #discount{color:#ff3d36}
+ #description{padding-top:2rem;margin-bottom:2rem;font-size:20px;}
+    #description-content{font-size:12px;}
 </style>
 @extends('layouts.master')
 @section('title')
@@ -28,7 +30,9 @@ div h7{color:gray;font-size:14px;}
     </form>
 </div>
 </div>
-        <div class="row"><div class="md-col-12">{{$product->description}}</div></div>
+        <div class="row">
+            <h4 id="description">Description</h4>
+            <div class="col-md-12" id="description-content">{!!nl2br(e($product->description)) !!}</div></div>
 
 
 
