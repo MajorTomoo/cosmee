@@ -41,7 +41,7 @@ Welcome!
 <h5 style="color:#444;">Popular Brands</h5></div>
 <div class='row' style="margin:0 1.5rem;margin-bottom:0.5rem;padding:auto;" id="brand-container">
 @foreach($products as $product)
-<div class='col-md-2 col-sm-12 col-xs=12'><ul class='list-group'><li class='list-group-item'><a title="{{$product->brand}}" href="#" class='brand-container'>{{$product->brand}}</a></li></ul></div>
+<div class='col-md-2 col-sm-12 col-xs=12'><ul class='list-group'><li class='list-group-item'><a title="{{$product->brand}}" href="{{'list/brand/'.$product->brand}}" class='brand-container'>{{$product->brand}}</a></li></ul></div>
 @endforeach
 </div>
 <div class='row' style="background:#E8DDD9;height:1.5rem;margin-top:1rem;"></div>

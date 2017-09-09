@@ -1,6 +1,6 @@
 <?php 
-namespace App\Http\Controllers;
-use App\Product;
+namespace Laravel\Http\Controllers;
+use Laravel\Product;
 
 class HomeController extends Controller{
     

@@ -23,6 +23,7 @@ Sign In
   <div class="form-group">
     <label for="password">Password</label>
     <input name="password" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+    <a href="password/reset"> forgot password?</a>
   </div>
   <button type="submit" class="btn btn-primary">SIGN IN</button>
   <input type="hidden" name="_token" value="{{ Session::token() }}">

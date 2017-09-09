@@ -39,7 +39,7 @@
         <a class="nav-link">Welcome! <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/register">Join</a>
+        <a class="nav-link" href="/signup">Join</a>
       </li>
       <li class="nav-item">
         <a class="nav-link disabled" href="/signin">Sign In</a>

@@ -1,7 +1,7 @@
 <?php
-namespace App\Http\Controllers;
+namespace Laravel\Http\Controllers;
 use Illuminate\Http\Request;
-use App\User;
+use Laravel\User;
 use Illuminate\Support\Facades\Auth;
 class UserController extends Controller {
     

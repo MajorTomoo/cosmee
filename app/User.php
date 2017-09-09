@@ -1,28 +1,29 @@
 <?php
 
-namespace App;
+namespace Laravel;
 
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Contracts\Auth\Authenticatable;
-
-
-class User extends Model implements Authenticatable
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Auth\Passwords\CanResetPassword;
+class User extends Model implements Authenticatable, \Illuminate\Contracts\Auth\CanResetPassword
 {
     use \Illuminate\Auth\Authenticatable;
-    
+    use Notifiable;
+    use CanResetPassword;
     public function roles(){
         
-       return $this->belongsToMany('App\Role','user_role','user_id','role_id');
+       return $this->belongsToMany('Laravel\Role','user_role','user_id','role_id');
         
     }
     public function address(){
-        return $this->hasMany('App\Address');
+        return $this->hasMany('Laravel\Address');
 
     }
     public function orders(){
 
-        return $this->hasMany('App\Order');
+        return $this->hasMany('Laravel\Order');
 
     }
     public function hasAnyRole($roles){

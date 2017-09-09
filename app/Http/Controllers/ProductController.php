@@ -1,12 +1,12 @@
 <?php
-namespace App\Http\Controllers;
+namespace Laravel\Http\Controllers;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use App\Product;
+use Laravel\Product;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
-use App\Order;
-use Illuminate\Support\Facades\Auth;
+
+
+
 class ProductController extends Controller{
     
  public function addProduct(Request $request){
@@ -113,5 +113,18 @@ public function getProductDetail($name,$id){
 $product=Product::where('id',$id)->first();
     return view('product',['product'=>$product]);
 }
+
+
+//get product list
+public function getList($type,$value){
+
+  $products=Product::where($type,$value)->get();
+    $category=array('type','colour','size','category','brand');
+    $category=array_diff($category, array($type));
+
+
+  return view('list',['products'=>$products,'category'=>$category]);
+}
+
 
 }

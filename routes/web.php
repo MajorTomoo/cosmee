@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +11,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-
-Route::get('/register', function () {
+Route::get('/home',[
+    'uses'=>'HomeController@getHome',
+    'as'=>'homes'
+]);
+Route::get('/signup', function () {
         return view('register');
 });
 Route::get('/signin', function () {
@@ -122,8 +124,19 @@ Route::get('/checkout',[
    'as'=>'checkout'
 
 ]);
+Route::post('/checkout',[
+  'uses'=>'BagController@postCheckOut',
+  'as'=>'checkout'
+]);
 //ADD-ADDRESS
 Route::post('/add-address',[
     'uses'=>'AddressController@postAddAddress',
     'as'=>'add-address'
 ]);
+//Product List
+Route::get('/list/{type}/{value}',[
+
+  'uses'=>'ProductController@getList',
+  'as'=>'get-list'
+]);
+Auth::routes();

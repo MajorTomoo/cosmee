@@ -6,6 +6,5 @@
 @endif
 
 <script>
-$('.alert').fadeOut(3000);
 
 </script>

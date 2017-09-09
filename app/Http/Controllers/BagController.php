@@ -6,13 +6,18 @@
  * Time: 17:44
  */
 
-namespace App\Http\Controllers;
+namespace Laravel\Http\Controllers;
 
-use App\Address;
-use App\Order;
+use Laravel\Tools\Helper;
+use Laravel\Address;
+
+use Laravel\Order;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Product;
+use Laravel\Product;
+use Stripe\Stripe;
+use Stripe\Customer;
+use Stripe\Charge;
 class BagController extends Controller
 {
 public function getBagPage(){
@@ -35,11 +40,17 @@ if(!Auth::check()){
     return view('mybag');
 }
     public function remove($product_id,$order_id){
+        if(!Auth::check()){
+            return redirect()->route('signin');
+        }
      $product=\DB::table('order_user')->where([['product_id',$product_id],['order_id',$order_id]]);
      $product->delete();
      return redirect()->route('mybag');
     }
     public function addToCart(Request $request){
+        if(!Auth::check()){
+            return redirect()->route('signin');
+        }
         $id=$request['id'];
         $quantity=$request['quantity'];
         $user_id=Auth::id();
@@ -88,8 +99,14 @@ if(!Auth::check()){
         }
         $user_id=Auth::id();
         $order_id=Order::where([['user_id',$user_id], ['payment',0]])->first()->id;
+        $product_exist=\DB::table('order_user')->join('products','order_user.product_id','=','products.id')
+            ->where([['order_id',$order_id],['user_id',$user_id]])->first();
+        if(!isset($product_exist)){
+            return response('You do not have any products in your bag',200);
+        }
         $products=\DB::table('order_user')->join('products','order_user.product_id','=','products.id')
             ->where([['order_id',$order_id],['user_id',$user_id]])->get();
+
         $total_price=0;
         foreach($products as $product){
             $total_price=$total_price+$product->current_price*$product->quantity;
@@ -102,4 +119,36 @@ if(!Auth::check()){
 
         return view('checkout',['total_price'=>$total_price,'address_exist'=>$address_exist,'addresses'=>$addresses]);
     }
+    public function postCheckOut(Request $request){
+        if(!Auth::check()){
+            return redirect()->route('signin');
+        }
+        //calculate total price
+        $user_id=Auth::id();
+        $order_id=Order::where([['user_id',$user_id], ['payment',0]])->first()->id;
+        $products=\DB::table('order_user')->join('products','order_user.product_id','=','products.id')
+            ->where([['order_id',$order_id],['user_id',$user_id]])->get();
+
+        $total_price=0;
+        foreach($products as $product){
+            $total_price=$total_price+$product->current_price*$product->quantity;
+        }
+        //stripe handle
+        Stripe::setApiKey('sk_live_Un2n15nR043t7GZFoHJWqTUs');
+        $token  = $request['stripeToken'];
+        $user_email=Auth::user()->email;
+        $customer = Customer::create(array(
+            'email' => $user_email,
+            'source'  => $token
+        ));
+        $charge = Charge::create(array(
+            'customer' => $customer->id,
+            'amount'   => round($total_price*100),
+            'currency' => 'aud'
+        ));
+
+        return response( '<h1>Successfully charged !</h1>',200);
+
+    }
+
 }

@@ -6,8 +6,8 @@
  * Time: 4:22
  */
 
-namespace App\Http\Controllers;
-use App\Address;
+namespace Laravel\Http\Controllers;
+use Laravel\Address;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

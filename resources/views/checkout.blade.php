@@ -3,13 +3,14 @@
 .form-control{border-radius: 0 !important;}
 .col-md-5 h5{font-size:15px;color:gray;}
  .btn{letter-spacing: .125rem;  border-radius: 0 !important;  background-color: #2e3436;  border: none;  color: #fff;  cursor: pointer;  display: inline-block;  position: relative;  outline: 0;  text-align: center;  text-decoration: none;  text-transform: uppercase;  transition: background-color .15s linear;  vertical-align: middle;  font-family: futura-pt-n7,futura-pt,Tahoma,Geneva,Verdana,Arial,sans-serif;  font-style: normal;  font-weight: 700;  padding: 5.008px 5%;  padding: .313rem 5%;  font-size: 14px;  font-size: .875rem;  padding: 12px 12px;  padding: .75rem 12px;}
-.btn:hover{background-color: #7c7c7c;}
+.btn:hover{background-color: #7c7c7c;cusor:pointer;}
     .order-summary{font-size:14px;color:#2e3436;}
+
 
 </style>
 @extends('layouts.master')
 @section('title')
-    Shipping Address
+    Check Out
 @endsection
 @section('content')
 <div class="container">
@@ -22,7 +23,10 @@
         <div class="form-group"><label for="delivery">Delivery To:</label>
         <select class="form-control form-control-sm">
          @foreach($addresses as $address)
-         <option value="{{$address->state}}" >{{$address->receiver_name." ".$address->street_address
+         <option title="{{$address->receiver_name." ".$address->street_address
+         ." ".$address->city." ".$address->state." ".$address->postcodes." ".$address->mobile_no}}" value="{{$address->receiver_name." ".$address->street_address
+         ." ".$address->city." ".$address->state." ".$address->postcodes." ".$address->mobile_no}}" >
+             {{$address->receiver_name." ".$address->street_address
          ." ".$address->city." ".$address->state." ".$address->postcodes." ".$address->mobile_no}}</option>
          @endforeach
         </select>
@@ -86,9 +90,26 @@
             <p><tr><td>Shipping:</td><td>${{$shipping_cost}}</td></tr></p>
             <p><tr><td>Order Total:</td><td>${{$order_total}}</td></tr></p>
         </table>
-        <p></p>
-        <a class="btn btn-success" href="#">pay secure</a>
+        <h6>Credit Card Detail</h6>
+        <form action="/checkout" method="POST">
+            <script
+                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                    data-key="pk_live_I680GJ4guY1uthQo7DEB606y"
+                    data-amount="{{round($order_total*100)}}"
+                    data-name="cosmee"
+                    data-description="cosmee product"
+                    data-image="https://stripe.com/img/documentation/checkout/marketplace.png"
+                    data-locale="auto"
+                    data-zip-code="true"
+                    data-currency="aud">
+            </script>
+            {{ csrf_field() }}
+        </form>
     </div>
 </div>
 </div>
+@endsection
+@section('scripts')
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="{{URL::to('js/checkout.js')}}"></script>
 @endsection
